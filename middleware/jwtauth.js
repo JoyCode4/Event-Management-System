@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 const secret = "secret";
-const auth = (req, res, next) => {
+export const auth = (req, res, next) => {
   const token = req.headers["authorization"];
   if (!token) {
     return res.status(401).send({ message: "Unauthorized Access" });
