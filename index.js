@@ -1,4 +1,5 @@
 import express from "express";
+import "./config/mongoose.js";
 const app = express();
 const PORT = 8080;
 app.get("/", (req, res) => {
