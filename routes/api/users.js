@@ -1,9 +1,6 @@
 import express from "express";
-
+import { signUp, signIn } from "../../controller/usersController.js";
 export const usersRouter = express.Router();
 
-usersRouter.get("/", (req, res) => {
-  res.json({
-    message: "User API",
-  });
-});
+usersRouter.post("/signup", signUp);
+usersRouter.post("/signin", signIn);
