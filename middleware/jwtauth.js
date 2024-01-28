@@ -7,7 +7,7 @@ export const auth = (req, res, next) => {
   }
   try {
     const payload = jwt.verify(token, secret);
-    console.log(payload);
+    // console.log(payload);
     req.userId = payload.userId;
   } catch (e) {
     if (e) {
