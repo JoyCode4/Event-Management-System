@@ -47,7 +47,9 @@ export const signIn = async (req, res) => {
       });
     }
     console.log(user);
-    const token = jwt.sign({ userId: user._id }, secret);
+    const token = jwt.sign({ userId: user._id }, secret, {
+      expiresIn: 1000 * 60 * 60 * 24,
+    });
     return res.send({
       message: "Valid User",
       authToken: token,
