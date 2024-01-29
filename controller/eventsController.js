@@ -52,3 +52,26 @@ export const eventById = async (req, res) => {
     });
   }
 };
+
+export const searchEvent = async (req, res) => {
+  const { title, date, location } = req.query;
+  let filterExpression = {};
+  try {
+    if (title) {
+      filterExpression = { title: title };
+    }
+    if (date) {
+      filterExpression = { ...filterExpression, date: date };
+    }
+    if (location) {
+      filterExpression = { ...filterExpression, location: location };
+    }
+    const events = await Event.find(filterExpression);
+    return res.send({
+      message: "all the searched events",
+      events: events,
+    });
+  } catch (err) {
+    return res.send({ error: err.message });
+  }
+};
