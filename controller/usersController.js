@@ -60,3 +60,23 @@ export const signIn = async (req, res) => {
     });
   }
 };
+
+export const deleteUser = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.send({
+        message: "User not found",
+      });
+    }
+    user.isDeleted = true;
+    user.save();
+    return res.send({
+      message: "User deleted successfully",
+      user: user,
+    });
+  } catch (err) {
+    res.send({ error: err.message });
+  }
+};

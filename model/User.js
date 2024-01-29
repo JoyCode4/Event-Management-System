@@ -28,7 +28,7 @@ const userSchema = mongoose.Schema({
     },
   ],
   // isDelete is used for soft delete
-  isDelete: {
+  isDeleted: {
     type: Boolean,
     default: false,
   },
@@ -36,10 +36,10 @@ const userSchema = mongoose.Schema({
 
 // pre is used for soft delete
 userSchema.pre("find", function () {
-  this.where({ isDelete: false });
+  this.where({ isDeleted: false });
 });
 userSchema.pre("findOne", function () {
-  this.where({ isDelete: false });
+  this.where({ isDeleted: false });
 });
 
 export const User = mongoose.model("User", userSchema);
