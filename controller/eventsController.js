@@ -53,7 +53,7 @@ export const eventById = async (req, res) => {
   }
 };
 
-export const searchEvent = async (req, res) => {
+export const filterEvent = async (req, res) => {
   const { title, date, location } = req.query;
   let filterExpression = {};
   try {
@@ -70,6 +70,44 @@ export const searchEvent = async (req, res) => {
     return res.send({
       message: "all the searched events",
       events: events,
+    });
+  } catch (err) {
+    return res.send({ error: err.message });
+  }
+};
+
+export const searchEventByTitle = async (req, res) => {
+  const { title } = req.body;
+  try {
+    const result = await Event.find({ title });
+    return res.send({
+      message: "Search by title",
+      events: result,
+    });
+  } catch (err) {
+    return res.send({ error: err.message });
+  }
+};
+export const searchEventByDate = async (req, res) => {
+  const { date } = req.body;
+  try {
+    const result = await Event.find({ date });
+    return res.send({
+      message: "Search by date",
+      events: result,
+    });
+  } catch (err) {
+    return res.send({ error: err.message });
+  }
+};
+
+export const searchEventByLocation = async (req, res) => {
+  const { location } = req.body;
+  try {
+    const result = await Event.find({ location });
+    return res.send({
+      message: "Search by location",
+      events: result,
     });
   } catch (err) {
     return res.send({ error: err.message });

@@ -3,12 +3,18 @@ import {
   create,
   allEvents,
   eventById,
-  searchEvent,
+  searchEventByLocation,
+  searchEventByTitle,
+  searchEventByDate,
+  filterEvent,
 } from "../../controller/eventsController.js";
 import { auth } from "../../middleware/jwtauth.js";
 export const eventsRouter = express.Router();
 
 eventsRouter.post("/create", auth, create);
 eventsRouter.get("/all_events", auth, allEvents);
-eventsRouter.get("/search", auth, searchEvent);
+eventsRouter.get("/filter", auth, filterEvent);
+eventsRouter.get("/search/title", auth, searchEventByTitle);
+eventsRouter.get("/search/date", auth, searchEventByDate);
+eventsRouter.get("/search/location", auth, searchEventByLocation);
 eventsRouter.get("/:eventid", auth, eventById);
