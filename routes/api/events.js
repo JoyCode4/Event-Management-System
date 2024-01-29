@@ -6,6 +6,7 @@ import {
   searchEventByLocation,
   searchEventByTitle,
   searchEventByDate,
+  addRating,
   filterEvent,
 } from "../../controller/eventsController.js";
 import { auth } from "../../middleware/jwtauth.js";
@@ -17,4 +18,5 @@ eventsRouter.get("/filter", auth, filterEvent);
 eventsRouter.get("/search/title", auth, searchEventByTitle);
 eventsRouter.get("/search/date", auth, searchEventByDate);
 eventsRouter.get("/search/location", auth, searchEventByLocation);
+eventsRouter.post("/rate", auth, addRating);
 eventsRouter.get("/:eventid", auth, eventById);

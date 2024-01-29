@@ -113,3 +113,30 @@ export const searchEventByLocation = async (req, res) => {
     return res.send({ error: err.message });
   }
 };
+
+export const addRating = async (req, res) => {
+  const { eventId, rating } = req.body;
+  try {
+    const event = await Event.findById(eventId).populate("ratings").exec();
+    const rated = await event.ratings.find((r) => r.user == req.userId);
+    if (rated) {
+      return res.send({
+        message: "already rated for this event",
+      });
+    }
+    event.ratings.push({
+      user: req.userId,
+      rate: rating,
+    });
+    const ratings = event.ratings;
+    const avg = ratings.reduce((acc, e) => acc + e.rate, 0) / ratings.length;
+    event.average_rating = avg;
+    event.save();
+    res.send({
+      message: "Rating is added successfully",
+      event: event,
+    });
+  } catch (err) {
+    return res.send({ error: err.message });
+  }
+};

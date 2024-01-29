@@ -32,6 +32,19 @@ const eventSchema = mongoose.Schema({
       ref: "Comment",
     },
   ],
+  average_rating: {
+    type: Number,
+    default: 0,
+  },
+  ratings: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      rate: Number,
+    },
+  ],
 });
 
 export const Event = mongoose.model("Event", eventSchema);
