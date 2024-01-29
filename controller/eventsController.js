@@ -27,6 +27,11 @@ export const create = async (req, res) => {
 export const allEvents = async (req, res) => {
   try {
     const events = await Event.find();
+    if (events.length <= 0) {
+      return res.send({
+        message: "No events found",
+      });
+    }
     return res.send({
       message: "All Events",
       events: events,
@@ -42,6 +47,11 @@ export const eventById = async (req, res) => {
   const { eventid } = req.params;
   try {
     const event = await Event.findById(eventid);
+    if (!event) {
+      return res.send({
+        message: "Event not found",
+      });
+    }
     return res.send({
       message: "get event details",
       event: event,
@@ -67,6 +77,11 @@ export const filterEvent = async (req, res) => {
       filterExpression = { ...filterExpression, location: location };
     }
     const events = await Event.find(filterExpression);
+    if (events.length <= 0) {
+      return res.send({
+        message: "No Events are available",
+      });
+    }
     return res.send({
       message: "all the searched events",
       events: events,
@@ -80,6 +95,11 @@ export const searchEventByTitle = async (req, res) => {
   const { title } = req.body;
   try {
     const result = await Event.find({ title });
+    if (result.length <= 0) {
+      return res.send({
+        message: "Event not found",
+      });
+    }
     return res.send({
       message: "Search by title",
       events: result,
@@ -92,6 +112,11 @@ export const searchEventByDate = async (req, res) => {
   const { date } = req.body;
   try {
     const result = await Event.find({ date });
+    if (result.length <= 0) {
+      return res.send({
+        message: "Event not found",
+      });
+    }
     return res.send({
       message: "Search by date",
       events: result,
@@ -105,6 +130,11 @@ export const searchEventByLocation = async (req, res) => {
   const { location } = req.body;
   try {
     const result = await Event.find({ location });
+    if (result.length <= 0) {
+      return res.send({
+        message: "Event not found",
+      });
+    }
     return res.send({
       message: "Search by location",
       events: result,
@@ -119,6 +149,11 @@ export const addRating = async (req, res) => {
   try {
     const event = await Event.findById(eventId).populate("ratings").exec();
     const rated = await event.ratings.find((r) => r.user == req.userId);
+    if (!event) {
+      return res.send({
+        message: "Event not found",
+      });
+    }
     if (rated) {
       return res.send({
         message: "already rated for this event",

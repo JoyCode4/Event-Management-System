@@ -1,11 +1,18 @@
 import { User } from "../model/User.js";
+import { Event } from "../model/Event.js";
 import { Ticket } from "../model/Ticket.js";
 
 export const purchaseTicket = async (req, res) => {
   const { ticketType, price, quantity } = req.body;
   const { event } = req.params;
-  const user = await User.findById(req.userId);
   try {
+    const user = await User.findById(req.userId);
+    const eventt = await Event.findById(event);
+    if (!eventt) {
+      return res.send({
+        message: "No event found,Please put valid Event Id",
+      });
+    }
     const ticket = await Ticket.create({
       user: req.userId,
       event,
@@ -31,6 +38,11 @@ export const getTickets = async (req, res) => {
   try {
     const user = await User.findById(req.userId).populate("tickets");
     const tickets = user.tickets;
+    if (tickets.length <= 0) {
+      return res.send({
+        message: "No tickets found",
+      });
+    }
     res.send({
       message: "get all purchased Tickets",
       tickets,

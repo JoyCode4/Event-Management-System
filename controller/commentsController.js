@@ -8,6 +8,11 @@ export const create = async (req, res) => {
   try {
     const user = await User.findById(req.userId);
     const eventObj = await Event.findById(event);
+    if (!eventObj) {
+      return res.send({
+        message: "Event not found, enter valid event Id",
+      });
+    }
     const comment = await Comment.create({
       user: req.userId,
       event: event,
