@@ -8,6 +8,7 @@ import {
   searchEventByDate,
   addRating,
   filterEvent,
+  deleteEvent,
 } from "../../controller/eventsController.js";
 import { auth } from "../../middleware/jwtauth.js";
 export const eventsRouter = express.Router();
@@ -20,3 +21,4 @@ eventsRouter.get("/search/date", auth, searchEventByDate);
 eventsRouter.get("/search/location", auth, searchEventByLocation);
 eventsRouter.post("/rate", auth, addRating);
 eventsRouter.get("/:eventid", auth, eventById);
+eventsRouter.delete("/:eventid", auth, deleteEvent);

@@ -176,3 +176,30 @@ export const addRating = async (req, res) => {
     return res.send({ error: err.message });
   }
 };
+
+// only valid user can delete event
+export const deleteEvent = async (req, res) => {
+  const { eventid } = req.params;
+  try {
+    const event = await Event.findById(eventid);
+    if (!event) {
+      return res.send({
+        message: "Event not exist/Event not found",
+      });
+    } else if (event.organizer != req.userId) {
+      return res.send({
+        message: "User is not Authorized to delete event",
+      });
+    } else {
+      event.isDeleted = true;
+      event.save();
+
+      return res.send({
+        message: "Event deleted successfully",
+        event: event,
+      });
+    }
+  } catch (err) {
+    res.send({ error: err.message });
+  }
+};
