@@ -122,6 +122,7 @@ export const addRating = async (req, res) => {
     if (rated) {
       return res.send({
         message: "already rated for this event",
+        average_rating: event.average_rating,
       });
     }
     event.ratings.push({
@@ -130,11 +131,11 @@ export const addRating = async (req, res) => {
     });
     const ratings = event.ratings;
     const avg = ratings.reduce((acc, e) => acc + e.rate, 0) / ratings.length;
-    event.average_rating = avg;
+    event.average_rating = avg.toFixed(2);
     event.save();
     res.send({
       message: "Rating is added successfully",
-      event: event,
+      average_rating: event.average_rating,
     });
   } catch (err) {
     return res.send({ error: err.message });
