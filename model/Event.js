@@ -45,6 +45,24 @@ const eventSchema = mongoose.Schema({
       rate: Number,
     },
   ],
+  // isDelete is used for soft delete
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+// pre is used for soft delete
+eventSchema.pre("find", function () {
+  this.where({ isDeleted: false });
+});
+
+eventSchema.pre("findOne", function () {
+  this.where({ isDeleted: false });
+});
+
+eventSchema.pre("findById", function () {
+  this.where({ isDeleted: false });
 });
 
 export const Event = mongoose.model("Event", eventSchema);
